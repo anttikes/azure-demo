@@ -14,7 +14,7 @@ services:
     environment:
       POSTGRES_DB: merus-power-db
       POSTGRES_USER: merus-power-user
-      POSTGRES_PASSWORD: no-passw0rd
+      POSTGRES_PASSWORD: no-p4ssw0rd
       
   admniner:
     image: adminer
