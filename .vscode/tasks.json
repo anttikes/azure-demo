@@ -7,7 +7,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/src/merus-power.csproj",
+        "${workspaceFolder}/src/Products.API/merus-power.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -19,7 +19,7 @@
       "type": "process",
       "args": [
         "publish",
-        "${workspaceFolder}/src/merus-power.csproj",
+        "${workspaceFolder}/src/Products.API/merus-power.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -33,7 +33,7 @@
         "watch",
         "run",
         "--project",
-        "${workspaceFolder}/src/merus-power.csproj"
+        "${workspaceFolder}/src/Products.API/merus-power.csproj"
       ],
       "problemMatcher": "$msCompile"
     },
@@ -42,7 +42,7 @@
       "command": "dotnet",
       "args": [
         "clean",
-        "${workspaceFolder}/src/merus-power.csproj",
+        "${workspaceFolder}/src/Products.API/merus-power.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -54,7 +54,7 @@
       "command": "dotnet",
       "args": [
         "build",
-        "${workspaceFolder}/src/merus-power.csproj",
+        "${workspaceFolder}/src/Products.API/merus-power.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -71,7 +71,7 @@
       "command": "dotnet",
       "args": [
         "clean",
-        "${workspaceFolder}/src/merus-power.csproj",
+        "${workspaceFolder}/src/Products.API/merus-power.csproj",
         "--configuration",
         "Release",
         "/property:GenerateFullPaths=true",
@@ -85,7 +85,7 @@
       "command": "dotnet",
       "args": [
         "publish",
-        "${workspaceFolder}/src/merus-power.csproj",
+        "${workspaceFolder}/src/Products.API/merus-power.csproj",
         "--configuration",
         "Release",
         "/property:GenerateFullPaths=true",
@@ -99,7 +99,7 @@
       "type": "func",
       "dependsOn": "build (functions)",
       "options": {
-        "cwd": "${workspaceFolder}/src/bin/Debug/net6.0"
+        "cwd": "${workspaceFolder}/src/Products.API/bin/Debug/net6.0"
       },
       "command": "host start",
       "isBackground": true,
