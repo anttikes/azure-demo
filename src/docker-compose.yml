@@ -1,0 +1,31 @@
+version: '3.9'
+
+networks:
+  default:
+    name: 'merus-power-demo-network'
+
+services:
+  postgresql:
+    image: postgres
+    container_name: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: merus-power-db
+      POSTGRES_USER: merus-power-user
+      POSTGRES_PASSWORD: no-passw0rd
+      
+  admniner:
+    image: adminer
+    container_name: adminer
+    depends_on:
+      - postgresql
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      ADMINER_DEFAULT_DB_DRIVER: "pgsql"
+      ADMINER_DEFAULT_DB_HOST: "postgresql"
+      ADMINER_DEFAULT_DB_NAME: "merus-power-db"      
+    
