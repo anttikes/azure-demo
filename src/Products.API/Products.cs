@@ -1,26 +1,11 @@
+using Merus.Power.Demo.Products.API.Models;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Npgsql;
 
-namespace Merus.Power.Demo
+namespace Merus.Power.Demo.Products.API
 {
-    internal class Product
-    {
-        public Guid Id { get; }
-        public string Name { get; }
-        public decimal Price { get; }
-        public int Quantity { get; }
-
-        internal Product(Guid id, string name, decimal price, int quantity)
-        {
-            Id = id;
-            Name = name;
-            Price = price;
-            Quantity = quantity;            
-        }
-    }
-
     public class Products
     {
         private readonly ILogger _logger;
