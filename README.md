@@ -1,2 +1,2 @@
-# meruspower-demo
-A simple Azure function with Bicep deployment files
+# Merus Power demo
+A simple Container Apps based Azure Function application with Bicep deployment support
