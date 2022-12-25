@@ -1,14 +1,8 @@
-using System.Net;
-using System.Web;
 using Merus.Power.Demo.Products.API.Data;
-using Merus.Power.Demo.Products.API.Models;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
 
 namespace Merus.Power.Demo.Products.API;
 
