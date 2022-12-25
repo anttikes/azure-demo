@@ -8,8 +8,6 @@ param sqlConnectionString string
 
 param location string = resourceGroup().location
 
-var acrPullRole = resourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d')
-
 resource logWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
   name: 'law-${applicationName}-001'
   location: location
@@ -96,6 +94,10 @@ resource functionApp 'Microsoft.App/containerApps@2022-03-01' = {
           } 
           env: [
             {
+              name: 'FUNCTIONS_WORKER_RUNTIME'
+              value: 'dotnet-isolated'
+            }
+            {
               name: 'SQL_CONNECTION_STRING'
               value: sqlConnectionString
             }
@@ -110,11 +112,14 @@ resource functionApp 'Microsoft.App/containerApps@2022-03-01' = {
   }
 }
 
+// Identifies the built-in pull role
+var builtInACRPullRole = resourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d')
+
 resource containerAppPullRBAC 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: 'rbac-${functionApp.name}'
   scope: containerRegistry
   properties: {    
-    roleDefinitionId: acrPullRole
+    roleDefinitionId: builtInACRPullRole
     principalId: functionApp.identity.principalId
     principalType: 'ServicePrincipal'
   }
