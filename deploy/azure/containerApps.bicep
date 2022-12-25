@@ -86,7 +86,7 @@ resource functionApp 'Microsoft.App/containerApps@2022-03-01' = {
       revisionSuffix: 'firstVersion'
       containers: [
         {
-          image: 'nginx'
+          image: '${containerRegistry.properties.loginServer}/merus-power-demo:latest'
           name: 'ca-${applicationName}-001'
           resources: {
             cpu: json('0.5')

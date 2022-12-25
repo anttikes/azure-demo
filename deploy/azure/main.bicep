@@ -43,6 +43,7 @@ module containerApps './containerApps.bicep' = {
   params: {
     applicationName: applicationName
     location: location
+    serviceEndpointSubnetId: vnet.outputs.containerAppSubnetId
     sqlConnectionString: format(sqlServer.outputs.adminConnectionString, sqlAdministratorLogin, sqlAdministratorPassword)
   }
 }
