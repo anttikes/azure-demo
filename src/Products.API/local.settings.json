@@ -3,6 +3,6 @@
     "Values": {
         "AzureWebJobsStorage": "UseDevelopmentStorage=true",
         "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-        "SQL_CONNECTION_STRING": "Host=localhost; Username=merus-power-user; Password=no-p4ssw0rd; Database=merus-power-db"
+        "SQL_CONNECTION_STRING": "Server=localhost; Database=MerusPower; Encrypt=True; TrustServerCertificate=True; User ID=sa; Password=comPL3x-p4SSw0rd"
     }
 }
