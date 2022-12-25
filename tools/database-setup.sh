@@ -86,4 +86,4 @@ fi
 
 echo
 echo "Initializing database, and seeding it with some random data"
-PGPASSWORD="$password" psql --host="$host" --username="$user" --dbname="$dbname" --file="initialData.sql"
+PGPASSWORD="$password" psql --host="$host" --username="$user" --dbname="$dbname" --file="initialData.pgsql"
