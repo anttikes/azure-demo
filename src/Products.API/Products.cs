@@ -1,58 +1,43 @@
-using Merus.Power.Demo.Products.API.Models;
+using Merus.Power.Demo.Products.API.Data;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Npgsql;
 
-namespace Merus.Power.Demo.Products.API
+namespace Merus.Power.Demo.Products.API;
+
+/// <summary>
+/// Provides product listing, searching and management features
+/// </summary>
+public sealed class Products
 {
-    public class Products
+    private readonly ILogger _logger;
+    private readonly ProductContext _context;
+
+    public Products(ILoggerFactory loggerFactory, ProductContext context)
     {
-        private readonly ILogger _logger;
+        _logger = loggerFactory.CreateLogger<Products>();
+        _context = context;
+    }
 
-        public Products(ILoggerFactory loggerFactory)
-        {
-            _logger = loggerFactory.CreateLogger<Products>();
-        }
+    /// <summary>
+    /// Returns all products
+    /// </summary>
+    /// <param name="req">An instance of <see cref="Microsoft.Azure.Functions.Worker.HttpTriggerAttribute" /> which defines the trigger properties and provides access to the http request</param>
+    /// <param name="cancellationToken">An instance of <see cref="System.Threading.CancellationToken" /> which is triggered when host cancellation is requested</param>
+    /// <returns>A collection of <see cref="Merus.Power.Demo.Products.API.Models.Product" /> instances</returns>    
+    [Function("GetAllProducts")]
+    public async Task<HttpResponseData> RunAsync(
+        [HttpTrigger(AuthorizationLevel.Function, "GET", Route = "products")] HttpRequestData req,
+        CancellationToken cancellationToken
+    )
+    {
+        var allProducts = await _context.Products.ToListAsync(cancellationToken);
+        
+        var res = req.CreateResponse(System.Net.HttpStatusCode.OK);
 
-        [Function("GetAllProducts")]
-        public async Task<HttpResponseData> RunAsync(
-            [HttpTrigger(AuthorizationLevel.Function, "GET", Route = "products")] HttpRequestData req,
-            CancellationToken cancellationToken
-        )
-        {
-            var connectionString = Environment.GetEnvironmentVariable("SQL_CONNECTION_STRING");
+        await res.WriteAsJsonAsync(allProducts);
 
-            if (string.IsNullOrEmpty(connectionString))
-            {
-                throw new ArgumentNullException($"The environment variable SQL_CONNECTION_STRING is not defined");
-            }
-
-            await using var dataSource = NpgsqlDataSource.Create(connectionString);
-
-            var products = new List<Product>();
-
-            await using (var cmd = dataSource.CreateCommand("SELECT * FROM public.Products"))
-            await using (var reader = await cmd.ExecuteReaderAsync(cancellationToken))
-            {
-                while(await reader.ReadAsync(cancellationToken))
-                {
-                    var product = new Product(
-                        reader.GetFieldValue<Guid>(0),
-                        reader.GetFieldValue<string>(1),
-                        reader.GetFieldValue<decimal>(2),
-                        reader.GetFieldValue<int>(3)
-                    );
-
-                    products.Add(product);
-                }
-            }
-
-            var res = req.CreateResponse(System.Net.HttpStatusCode.OK);
-
-            await res.WriteAsJsonAsync(products);
-
-            return res;
-        }
+        return res;
     }
 }
