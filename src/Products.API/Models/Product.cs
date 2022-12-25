@@ -3,9 +3,9 @@ namespace Merus.Power.Demo.Products.API.Models;
 public sealed class Product
 {
     public Guid Id { get; }
-    public string Name { get; }
-    public decimal Price { get; }
-    public int Quantity { get; }
+    public string Name { get; set; }
+    public decimal Price { get; set; }
+    public int Quantity { get; set; }
 
     internal Product(Guid id, string name, decimal price, int quantity)
     {

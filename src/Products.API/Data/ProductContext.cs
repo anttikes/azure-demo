@@ -1,5 +1,6 @@
 using Merus.Power.Demo.Products.API.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Merus.Power.Demo.Products.API.Data;
 
@@ -11,8 +12,11 @@ public sealed class ProductContext : DbContext
     public DbSet<Product> Products => Set<Product>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
+    {        
         optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("SQL_CONNECTION_STRING"));
+        
+        optionsBuilder.EnableDetailedErrors();
+        optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
     }
 
     /// <summary>
