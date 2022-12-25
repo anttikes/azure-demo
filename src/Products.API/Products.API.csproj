@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <RootNamespace>Merus.Power.Demo</RootNamespace>
-    <AssemblyName>Merus.Power.Demo</AssemblyName>
+    <RootNamespace>Merus.Power.Demo.Products.API</RootNamespace>
+    <AssemblyName>Merus.Power.Demo.Products.API</AssemblyName>
     <TargetFramework>net6.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
     <LangVersion>latest</LangVersion>
@@ -17,7 +17,7 @@
     <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.10.0" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.0.13" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.7.0" />
-    <PackageReference Include="Microsoft.AspnetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspnetCore.Mvc" Version="2.2.0" />    
     <PackageReference Include="Npgsql" Version="7.0.1" />
   </ItemGroup>
 
