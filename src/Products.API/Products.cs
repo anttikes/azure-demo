@@ -26,14 +26,14 @@ public sealed class Products
     /// <param name="req">An instance of <see cref="Microsoft.Azure.Functions.Worker.HttpTriggerAttribute" /> which defines the trigger properties and provides access to the http request</param>
     /// <param name="cancellationToken">An instance of <see cref="System.Threading.CancellationToken" /> which is triggered when host cancellation is requested</param>
     /// <returns>A collection of <see cref="Merus.Power.Demo.Products.API.Models.Product" /> instances</returns>    
-    [Function("GetAllProducts")]
+    [Function("GetProducts")]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Function, "GET", Route = "products")] HttpRequestData req,
         CancellationToken cancellationToken
     )
     {
         var allProducts = await _context.Products.ToListAsync(cancellationToken);
-        
+
         var res = req.CreateResponse(System.Net.HttpStatusCode.OK);
 
         await res.WriteAsJsonAsync(allProducts);
