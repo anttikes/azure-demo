@@ -22,4 +22,5 @@ After installing the prerequirements, follow these instructions:
    - Issue `docker compose --project-directory "src" up -d`
    - Issue `dotnet ef database update --startup-project "src/Products.API/Products.API.csproj"`
 6. You can now reach the API at `http://localhost:32741/api/products` endpoint.
+   - Copy the master key from `host_secrets.json` and put the value into either `code` query parameter or `x-functions-key` header
 7. Issue `docker compose --project-directory "src" stop` to stop the containers

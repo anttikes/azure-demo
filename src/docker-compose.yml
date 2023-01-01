@@ -2,17 +2,23 @@ version: '3.9'
 
 networks:
   default:
-    name: 'merus-power-demo-network'
+    name: 'azure-functions-demo-network'
 
 services:
-  azurite:
-    image: mcr.microsoft.com/azure-storage/azurite
-    container_name: azurite
-    restart: always
+  productcatalog.api:
+    image: ${DOCKER_REGISTRY-}product-catalog.api
+    container_name: product-catalog.api
     ports:
-      - 10000:10000
-      - 10001:10001
-      - 10002:10002
+      - 32741:80
+    depends_on:
+      - sqlserver
+    build:
+      context: .
+      dockerfile: Products.API/Dockerfile
+    environment:
+      AzureWebJobsSecretStorageType: "files"
+      FUNCTIONS_WORKER_RUNTIME: "dotnet-isolated"
+      SQL_CONNECTION_STRING: "Server=sqlserver; Database=ProductCatalog; Encrypt=True; TrustServerCertificate=True; User ID=sa; Password=comPL3x-p4SSw0rd"
 
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2019-latest
@@ -20,7 +26,11 @@ services:
     restart: always
     ports:
       - 1433:1433
+    volumes:
+      - sqlvolume:/var/opt/mssql
     environment:
       ACCEPT_EULA: "y"
-      MSSQL_SA_PASSWORD: "comPL3x-p4SSw0rd" 
-    
+      MSSQL_SA_PASSWORD: "comPL3x-p4SSw0rd"
+
+volumes:
+  sqlvolume:
