@@ -12,17 +12,14 @@ public sealed class ProductContext : DbContext
     public DbSet<Product> Products => Set<Product>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {        
+    {
         optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("SQL_CONNECTION_STRING"));
-        
+
         optionsBuilder.EnableDetailedErrors();
         optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
     }
 
-    /// <summary>
-    /// Configures model options for the context
-    /// </summary>
-    /// <param name="modelBuilder"></param>
+    /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Product>(entityBuilder =>

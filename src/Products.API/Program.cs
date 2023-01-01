@@ -7,12 +7,12 @@ using Newtonsoft.Json.Serialization;
 
 // Configures the generic .NET host when running inside a Container App
 var host = new HostBuilder()
-    .ConfigureFunctionsWorkerDefaults(options => 
+    .ConfigureFunctionsWorkerDefaults(options =>
     {
         var settings = NewtonsoftJsonObjectSerializer.CreateJsonSerializerSettings();
         settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         settings.NullValueHandling = NullValueHandling.Ignore;
-                
+
         options.Serializer = new NewtonsoftJsonObjectSerializer();
     })
     .ConfigureServices(services =>
@@ -22,4 +22,3 @@ var host = new HostBuilder()
     .Build();
 
 host.Run();
- 

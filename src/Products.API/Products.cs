@@ -51,11 +51,11 @@ public sealed class Products
     )
     {
         Requests.CreateProduct? createRequest;
-        
+
         try
         {
             createRequest = await req.ReadFromJsonAsync<Requests.CreateProduct>(cancellationToken);
-        } 
+        }
         catch(Exception ex)
         {
             var error = req.CreateResponse();
@@ -92,11 +92,11 @@ public sealed class Products
     )
     {
         Requests.UpdateProduct? updateRequest;
-        
+
         try
         {
             updateRequest = await req.ReadFromJsonAsync<Requests.UpdateProduct>(cancellationToken);
-        } 
+        }
         catch(Exception ex)
         {
             var error = req.CreateResponse();
