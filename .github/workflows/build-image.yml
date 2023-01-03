@@ -30,4 +30,4 @@ jobs:
         with:
           context: ./src/Products.API/
           push: true
-          tags: product-catalog.api:latest
+          tags: anttikes/product-catalog.api:latest
