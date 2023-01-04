@@ -31,6 +31,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./src
-          path: {context}/Products.API/Dockerfile
+          file: ./src/Products.API/Dockerfile
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
