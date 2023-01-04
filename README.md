@@ -1,5 +1,7 @@
 # Demo: Azure Functions in a Container App
-This demonstration presents a simple product catalog service that's deployable to an Azure Container App resource
+This demonstration presents a simple product catalog service that's deployable to an Azure Container App resource. The build artifact is hosted in GitHub Packages.
+
+[![Build Dockerfile](https://github.com/anttikes/azure-demo/actions/workflows/build-image.yml/badge.svg?branch=main)](https://github.com/anttikes/azure-demo/actions/workflows/build-image.yml)
 
 ## Technology stack
 This demo uses the following technologies:
