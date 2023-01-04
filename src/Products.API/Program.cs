@@ -1,5 +1,6 @@
 using Azure.Core.Serialization;
 using Merus.Power.Demo.Products.API.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
@@ -20,5 +21,10 @@ var host = new HostBuilder()
         services.AddDbContext<ProductContext>();
     })
     .Build();
+
+// Perform database migration at startup
+var context = host.Services.GetRequiredService<ProductContext>();
+
+context.Database.Migrate();
 
 host.Run();

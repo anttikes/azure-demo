@@ -20,7 +20,6 @@ After installing the prerequirements, follow these instructions:
 5. Open a shell prompt, and
    - Set the SQL_CONNECTION_STRING environment variable's value to the connection string from step #4
    - Issue `docker compose --project-directory "src" up -d`
-   - Issue `dotnet ef database update --startup-project "src/Products.API/Products.API.csproj"`
 6. You can now reach the API at `http://localhost:32741/api/products` endpoint.
    - Copy the function key from `host_secrets.json` and supply the value either via `code` query parameter or via `x-functions-key` header
 7. Issue `docker compose --project-directory "src" stop` to stop the containers
