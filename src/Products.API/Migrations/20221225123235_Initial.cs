@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace Merus.Power.Demo.Products.API.Migrations
+namespace Products.API.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration

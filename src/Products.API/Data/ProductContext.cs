@@ -1,8 +1,8 @@
-using Merus.Power.Demo.Products.API.Models;
+using Products.API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Merus.Power.Demo.Products.API.Data;
+namespace Products.API.Data;
 
 /// <summary>
 /// Entity Framework Core context class for <see cref="Models.Product" />

@@ -1,4 +1,4 @@
-namespace Merus.Power.Demo.Products.API.Requests;
+namespace Products.API.Requests;
 
 public sealed class UpdateProduct
 {

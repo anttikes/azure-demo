@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <RootNamespace>Merus.Power.Demo.Products.API</RootNamespace>
-    <AssemblyName>Merus.Power.Demo.Products.API</AssemblyName>
+    <RootNamespace>Products.API</RootNamespace>
+    <AssemblyName>Products.API</AssemblyName>
     <TargetFramework>net6.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
     <LangVersion>latest</LangVersion>

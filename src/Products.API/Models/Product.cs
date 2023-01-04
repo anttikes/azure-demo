@@ -1,4 +1,4 @@
-namespace Merus.Power.Demo.Products.API.Models;
+namespace Products.API.Models;
 
 public sealed class Product
 {

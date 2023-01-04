@@ -1,11 +1,11 @@
 using System.Net;
-using Merus.Power.Demo.Products.API.Data;
+using Products.API.Data;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Merus.Power.Demo.Products.API;
+namespace Products.API;
 
 /// <summary>
 /// Provides product listing, searching and management features

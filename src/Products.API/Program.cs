@@ -1,5 +1,5 @@
 using Azure.Core.Serialization;
-using Merus.Power.Demo.Products.API.Data;
+using Products.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

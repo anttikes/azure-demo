@@ -1,7 +1,7 @@
 targetScope = 'subscription'
 
 @description('Specifies the name of the application; this value is embedded into the resource names')
-param applicationName string = 'merus-power-demo'
+param applicationName string = 'product-catalog-demo'
 
 @description('Azure SQL administrator login')
 param sqlAdministratorLogin string
@@ -24,7 +24,7 @@ module vnet './network.bicep' = {
   params: {
     applicationName: applicationName
     location: location
-  }  
+  }
 }
 
 module sqlServer './sqlServer.bicep' = {
