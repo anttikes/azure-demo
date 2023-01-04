@@ -29,7 +29,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: ./src/
-          path: ./src/Products.API/Dockerfile
+          context: ./src
+          file: ./src/Products.API/Dockerfile
           push: true
           tags: anttikes/product-catalog.api:latest
