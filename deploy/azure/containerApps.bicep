@@ -22,17 +22,6 @@ resource logWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
   }
 }
 
-resource containerRegistry 'Microsoft.ContainerRegistry/registries@2022-02-01-preview' = {
-  name: 'acr-${applicationName}-001'
-  location: location
-  sku: {
-    name: 'Basic'
-  }
-  properties: {    
-    adminUserEnabled: true 
-  }
-}
-
 resource caEnvironment 'Microsoft.App/managedEnvironments@2022-06-01-preview' = {
   name: 'cae-${applicationName}-001'
   location: location
@@ -54,7 +43,7 @@ resource caEnvironment 'Microsoft.App/managedEnvironments@2022-06-01-preview' = 
   }
 }
 
-resource functionApp 'Microsoft.App/containerApps@2022-03-01' = {
+resource caApp 'Microsoft.App/containerApps@2022-03-01' = {
   name: 'ca-${applicationName}-001'
   location: location
   identity: {
@@ -63,7 +52,7 @@ resource functionApp 'Microsoft.App/containerApps@2022-03-01' = {
   properties: {
     managedEnvironmentId: caEnvironment.id
     configuration: {
-      activeRevisionsMode: 'Single'      
+      activeRevisionsMode: 'Single'
       ingress: {
         allowInsecure: false
         external: true
@@ -75,23 +64,17 @@ resource functionApp 'Microsoft.App/containerApps@2022-03-01' = {
           }
         ]
       }
-      registries: [
-        {
-          identity: 'system'
-          server: containerRegistry.properties.loginServer
-        }
-      ]      
-    }    
+    }
     template: {
       revisionSuffix: 'firstVersion'
       containers: [
         {
-          image: '${containerRegistry.properties.loginServer}/merus-power-demo:latest'
+          image: 'ghcr.io/anttikes/product-catalog.api:latest'
           name: 'ca-${applicationName}-001'
           resources: {
             cpu: json('0.5')
             memory: '1.0Gi'
-          } 
+          }
           env: [
             {
               name: 'FUNCTIONS_WORKER_RUNTIME'
@@ -101,9 +84,13 @@ resource functionApp 'Microsoft.App/containerApps@2022-03-01' = {
               name: 'SQL_CONNECTION_STRING'
               value: sqlConnectionString
             }
-          ]         
+            {
+                name: 'AzureWebJobsSecretStorageType'
+                value: 'files'
+            }
+          ]
         }
-      ]      
+      ]
       scale: {
         minReplicas: 0
         maxReplicas: 1
@@ -112,17 +99,4 @@ resource functionApp 'Microsoft.App/containerApps@2022-03-01' = {
   }
 }
 
-// Identifies the built-in pull role
-var builtInACRPullRole = resourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d')
-
-resource containerAppPullRBAC 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: 'rbac-${functionApp.name}'
-  scope: containerRegistry
-  properties: {    
-    roleDefinitionId: builtInACRPullRole
-    principalId: functionApp.identity.principalId
-    principalType: 'ServicePrincipal'
-  }
-}
-
-output containerAppFQDN string = functionApp.properties.configuration.ingress.fqdn
+output containerAppFQDN string = caApp.properties.configuration.ingress.fqdn
