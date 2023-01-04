@@ -10,7 +10,7 @@ This demo uses the following technologies:
 - .NET Core 6.0
 - Azure Functions (Isolated worker)
 - Azure Functions HTTP triggers
-- Entity Framewok Core (with Migrations)
+- Entity Framewok Core (with Migrations and Compiled Models)
 - Bicep templates
 
 ## Running the demo

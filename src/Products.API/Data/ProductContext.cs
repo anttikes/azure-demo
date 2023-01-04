@@ -13,6 +13,9 @@ public sealed class ProductContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+#if !DEBUG
+        optionsBuilder.UseModel(global::Products.API.CompiledModels.ProductContextModel.Instance);
+#endif
         optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("SQL_CONNECTION_STRING"));
 
         optionsBuilder.EnableDetailedErrors();

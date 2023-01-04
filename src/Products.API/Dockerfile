@@ -1,6 +1,9 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS installer-env
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="$PATH:/root/.dotnet/tools"
 WORKDIR "/src"
 COPY ["Products.API/", "."]
+RUN dotnet ef dbcontext optimize --output-dir "CompiledModels"
 RUN mkdir -p /publish
 RUN dotnet publish "Products.API.csproj" -c Release -o /publish
 
