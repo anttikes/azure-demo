@@ -12,7 +12,7 @@ resource logWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
   name: 'law-${applicationName}-001'
   location: location
   properties: {
-    retentionInDays: 5
+    retentionInDays: 30
     sku: {
       name: 'PerGB2018'
     }
@@ -46,9 +46,6 @@ resource caEnvironment 'Microsoft.App/managedEnvironments@2022-06-01-preview' = 
 resource caApp 'Microsoft.App/containerApps@2022-03-01' = {
   name: 'ca-${applicationName}-001'
   location: location
-  identity: {
-    type: 'SystemAssigned'
-  }
   properties: {
     managedEnvironmentId: caEnvironment.id
     configuration: {
@@ -57,16 +54,9 @@ resource caApp 'Microsoft.App/containerApps@2022-03-01' = {
         allowInsecure: false
         external: true
         targetPort: 80
-        traffic: [
-          {
-            latestRevision: true
-            weight: 100
-          }
-        ]
       }
     }
     template: {
-      revisionSuffix: 'firstVersion'
       containers: [
         {
           image: 'ghcr.io/anttikes/product-catalog.api:latest'

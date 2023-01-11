@@ -1,25 +1,18 @@
-targetScope = 'subscription'
-
 @description('Specifies the name of the application; this value is embedded into the resource names')
-param applicationName string = 'product-catalog-demo'
-
-@description('Azure SQL administrator login')
-param sqlAdministratorLogin string
-
-@description('Azure SQL administrator password')
-@secure()
-param sqlAdministratorPassword string
+param applicationName string = 'product-catalog'
 
 @description('Specifies the Azure region where resources are deployed to')
 param location string = 'westeurope'
 
+targetScope = 'subscription'
+
 resource rgMain 'Microsoft.Resources/resourceGroups@2022-09-01' = {
-  name: 'rg-${applicationName}-001'
-  location: location
-}
+    name: 'rg-${applicationName}-001'
+    location: location
+  }
 
-module vnet './network.bicep' = {
-  name: 'virtualNetworkDeployment'
+module vnetModule './network.bicep' = {
+  name: 'virtualNetwork'
   scope: rgMain
   params: {
     applicationName: applicationName
@@ -27,23 +20,25 @@ module vnet './network.bicep' = {
   }
 }
 
-module sqlServer './sqlServer.bicep' = {
-  name: 'sqlServerDeployment'
+module sqlServerModule './sqlServer.bicep' = {
+  name: 'sqlServer'
   scope: rgMain
   params: {
     applicationName: applicationName
     location: location
-    serviceEndpointSubnetId: vnet.outputs.containerAppSubnetId
+    serviceEndpointSubnetId: vnetModule.outputs.containerAppSubnetId
   }
 }
 
-module containerApps './containerApps.bicep' = {
-  name: 'containerAppsDeployment'
+module containerAppsModule './containerApps.bicep' = {
+  name: 'containerApps'
   scope: rgMain
   params: {
     applicationName: applicationName
     location: location
-    serviceEndpointSubnetId: vnet.outputs.containerAppSubnetId
-    sqlConnectionString: format(sqlServer.outputs.adminConnectionString, sqlAdministratorLogin, sqlAdministratorPassword)
+    serviceEndpointSubnetId: vnetModule.outputs.containerAppSubnetId
+    sqlConnectionString: sqlServerModule.outputs.connectionString
   }
 }
+
+output containerAppFQDN string = containerAppsModule.outputs.containerAppFQDN
