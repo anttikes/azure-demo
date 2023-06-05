@@ -269,4 +269,7 @@ __blobstorage*/
 __queuestorage*/
 __tablestorage*/
 
+# Terraform
+.terraform
+
 .gitignore
