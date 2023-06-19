@@ -1,7 +1,7 @@
-resource "azurerm_mssql_server" "mssql_server" {
+resource "azurerm_mssql_server" "main" {
   name                = "sql-product-catalog-001"
-  location            = azurerm_resource_group.rg_main.location
-  resource_group_name = azurerm_resource_group.rg_main.name
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
   version             = "12.0"
 
   azuread_administrator {
@@ -12,15 +12,18 @@ resource "azurerm_mssql_server" "mssql_server" {
   }
 }
 
-resource "azurerm_mssql_virtual_network_rule" "example" {
+resource "azurerm_mssql_virtual_network_rule" "vnetRule1" {
   name      = "sql-vnet-rule"
-  server_id = azurerm_mssql_server.mssql_server.id
-  subnet_id = azurerm_subnet.snet_main.id
+  server_id = azurerm_mssql_server.main.id
+  subnet_id = azurerm_subnet.main.id
 }
 
-resource "azurerm_mssql_database" "mssql_database" {
+// TODO: Firewall rule for local computer (so initialization script can be executed)
+// Alternative: init container (but how to run as admin?)
+
+resource "azurerm_mssql_database" "main" {
   name                 = "db-product-catalog-001"
-  server_id            = azurerm_mssql_server.mssql_server.id
+  server_id            = azurerm_mssql_server.main.id
   collation            = "SQL_Latin1_General_CP1_CI_AS"
   license_type         = "LicenseIncluded"
   sku_name             = "Basic"

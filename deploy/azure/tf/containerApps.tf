@@ -1,23 +1,23 @@
-resource "azurerm_log_analytics_workspace" "law_containerapps" {
+resource "azurerm_log_analytics_workspace" "main" {
   name                = "law-product-catalog-001"
-  location            = azurerm_resource_group.rg_main.location
-  resource_group_name = azurerm_resource_group.rg_main.name
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
   sku                 = "PerGB2018"
   retention_in_days   = 30
 }
 
-resource "azurerm_container_app_environment" "ca_environment" {
+resource "azurerm_container_app_environment" "main" {
   name                       = "cae-product-catalog-001"
-  location                   = azurerm_resource_group.rg_main.location
-  resource_group_name        = azurerm_resource_group.rg_main.name
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.law_containerapps.id
-  infrastructure_subnet_id   = azurerm_subnet.snet_container_apps.id
+  location                   = azurerm_resource_group.main.location
+  resource_group_name        = azurerm_resource_group.main.name
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
+  infrastructure_subnet_id   = azurerm_subnet.main.id
 }
 
-resource "azurerm_container_app" "ca_product_catalog" {
+resource "azurerm_container_app" "main" {
   name                         = "ca-product-catalog-001"
-  container_app_environment_id = azurerm_container_app_environment.ca_environment.id
-  resource_group_name          = azurerm_resource_group.rg_main.name
+  container_app_environment_id = azurerm_container_app_environment.main.id
+  resource_group_name          = azurerm_resource_group.main.name
   revision_mode                = "Single"
 
   identity {
@@ -70,5 +70,5 @@ resource "null_resource" "create-sql-user" {
     interpreter = ["pwsh", "-Command"]
   }
 
-  depends_on = [azurerm_mssql_database.mssql_database, azurerm_container_app.ca_product_catalog]
+  depends_on = [azurerm_mssql_database.main, azurerm_container_app.azurerm_subnet.main]
 }
