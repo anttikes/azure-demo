@@ -271,6 +271,6 @@ __tablestorage*/
 
 # Terraform
 .terraform
-*.tfstate
+*.tfstate*
 
 .gitignore
