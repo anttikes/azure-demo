@@ -30,18 +30,8 @@ resource "azurerm_container_app" "ca_product_catalog" {
     target_port = 80
     traffic_weight {
       percentage = 100
+      latest_revision = true
     }
-  }
-
-  secret {
-    name = "ghcr-password"
-    value = "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"
-  }
-
-  registry {
-    server = "ghcr.io"
-    username = "anttikes"
-    password_secret_name = "ghcr-password"
   }
 
   template {
@@ -73,12 +63,12 @@ resource "null_resource" "create-sql-user" {
   provisioner "local-exec" {
     command = <<EOT
       Install-Module -Name SqlServer -Force
-      Invoke-Sqlcmd -Query "CREATE USER [${azurerm_container_app.ca_product_catalog.name}] FROM EXTERNAL PROVIDER" -ConnectionString "Server=tcp:${azurerm_mssql_server.mssql_server.fully_qualified_domain_name},1433; Database=${azurerm_mssql_database.mssql_database.name}; Authentication=Active Directory Managed Identity; Encrypt=True; TrustServerCertificate=False;"
-      Invoke-Sqlcmd -Query "ALTER ROLE [db_owner] ADD MEMBER [${azurerm_container_app.ca_product_catalog.name}]" -ConnectionString "Server=tcp:${azurerm_mssql_server.mssql_server.fully_qualified_domain_name},1433; Database=${azurerm_mssql_database.mssql_database.name}; Authentication=Active Directory Managed Identity; Encrypt=True; TrustServerCertificate=False;"
+      Invoke-Sqlcmd -Query "CREATE USER [${azurerm_container_app.ca_product_catalog.name}] FROM EXTERNAL PROVIDER" -ConnectionString "Server=tcp:${azurerm_mssql_server.mssql_server.fully_qualified_domain_name},1433; Database=${azurerm_mssql_database.mssql_database.name}; Authentication=Active Directory Default; Encrypt=True; TrustServerCertificate=False;"
+      Invoke-Sqlcmd -Query "ALTER ROLE [db_owner] ADD MEMBER [${azurerm_container_app.ca_product_catalog.name}]" -ConnectionString "Server=tcp:${azurerm_mssql_server.mssql_server.fully_qualified_domain_name},1433; Database=${azurerm_mssql_database.mssql_database.name}; Authentication=Active Directory Default; Encrypt=True; TrustServerCertificate=False;"
     EOT
 
     interpreter = ["pwsh", "-Command"]
   }
 
-  depends_on = [azurerm_mssql_database.mssql_database]
+  depends_on = [azurerm_mssql_database.mssql_database, azurerm_container_app.ca_product_catalog]
 }
