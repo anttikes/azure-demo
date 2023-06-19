@@ -7,7 +7,7 @@ resource "azurerm_log_analytics_workspace" "main" {
 }
 
 resource "azurerm_container_app_environment" "main" {
-  name                       = "cae-product-catalog-001"
+  name                       = "cae-product-catalog"
   location                   = azurerm_resource_group.main.location
   resource_group_name        = azurerm_resource_group.main.name
   log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
@@ -15,7 +15,7 @@ resource "azurerm_container_app_environment" "main" {
 }
 
 resource "azurerm_container_app" "main" {
-  name                         = "ca-product-catalog-001"
+  name                         = "product-catalog-backend"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
   revision_mode                = "Single"
@@ -35,6 +35,10 @@ resource "azurerm_container_app" "main" {
   }
 
   template {
+    min_replicas = 0
+    max_replicas = 5
+    revision_suffix = "primary"
+
     container {
       name   = "product-catalog"
       image  = "ghcr.io/anttikes/product-catalog.api:latest"
@@ -53,7 +57,7 @@ resource "azurerm_container_app" "main" {
 
       env {
         name = "SQL_CONNECTION_STRING"
-        value = "Server=tcp:${azurerm_mssql_server.mssql_server.fully_qualified_domain_name},1433; Database=${azurerm_mssql_database.mssql_database.name}; Authentication=Active Directory Managed Identity; Encrypt=True; TrustServerCertificate=False; MultipleActiveResultSets=True;"
+        value = "Server=tcp:${azurerm_mssql_server.main.fully_qualified_domain_name},1433; Database=${azurerm_mssql_database.main.name}; Authentication=Active Directory Managed Identity; Encrypt=True; TrustServerCertificate=False; MultipleActiveResultSets=True;"
       }
     }
   }

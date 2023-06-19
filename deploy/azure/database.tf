@@ -1,5 +1,5 @@
 resource "azurerm_mssql_server" "main" {
-  name                = "sql-product-catalog-001"
+  name                = "sql-product-catalog"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   version             = "12.0"
@@ -13,7 +13,7 @@ resource "azurerm_mssql_server" "main" {
 }
 
 resource "azurerm_mssql_database" "main" {
-  name                 = "db-product-catalog-001"
+  name                 = "sqldb-product-catalog"
   server_id            = azurerm_mssql_server.main.id
   collation            = "SQL_Latin1_General_CP1_CI_AS"
   license_type         = "LicenseIncluded"
