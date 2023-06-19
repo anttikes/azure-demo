@@ -10,7 +10,23 @@ terraform {
       source  = "hashicorp/azuread"
       version = "2.39.0"
     }
+
+    http = {
+      source = "hashicorp/http"
+      version = "3.3.0"
+    }
+
+    null = {
+      source = "hashicorp/null"
+      version = "3.2.1"
+    }
   }
+}
+
+provider "null" {
+}
+
+provider "http" {
 }
 
 provider "azuread" {
