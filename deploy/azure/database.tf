@@ -12,15 +12,6 @@ resource "azurerm_mssql_server" "main" {
   }
 }
 
-resource "azurerm_mssql_virtual_network_rule" "vnetRule1" {
-  name      = "sql-vnet-rule"
-  server_id = azurerm_mssql_server.main.id
-  subnet_id = azurerm_subnet.main.id
-}
-
-// TODO: Firewall rule for local computer (so initialization script can be executed)
-// Alternative: init container (but how to run as admin?)
-
 resource "azurerm_mssql_database" "main" {
   name                 = "db-product-catalog-001"
   server_id            = azurerm_mssql_server.main.id
