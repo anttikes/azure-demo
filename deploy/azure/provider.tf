@@ -33,7 +33,7 @@ provider "azuread" {
 }
 
 provider "azurerm" {
-  subscription_id = "eb70277e-3c3d-4ee3-ad74-3acceb88f603"
+  subscription_id = var.subscription_id
   features {
     resource_group {
       prevent_deletion_if_contains_resources = false

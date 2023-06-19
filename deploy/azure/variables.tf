@@ -4,6 +4,11 @@ variable "location" {
   default     = "northeurope"
 }
 
+variable "subscription_id" {
+    type        = string
+    description = "Azure Subcription ID to deploy resources to"
+}
+
 data "azurerm_client_config" "current" {}
 
 data "azuread_user" "current_user" {

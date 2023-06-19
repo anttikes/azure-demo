@@ -11,7 +11,7 @@ This demo uses the following technologies:
 - Azure Functions (Isolated worker)
 - Azure Functions HTTP triggers
 - Entity Framewok Core (with Migrations and Compiled Models)
-- Bicep templates
+- Terraform
 
 ## Running the demo
 After installing the prerequirements, follow these instructions:
@@ -25,3 +25,13 @@ After installing the prerequirements, follow these instructions:
 6. You can now reach the API at `http://localhost:32741/api/products` endpoint.
    - Copy the function key from `host_secrets.json` and supply the value either via `code` query parameter or via `x-functions-key` header
 7. Issue `docker compose --project-directory "src" stop` to stop the containers
+
+## Deploying to Azure
+After installing the prerequirements, follow these instructions:
+1. Get yourself an Azure Subscription to which you want to deploy resources
+2. Go to Azure Portal, and copy the subscription ID to clipboard
+3. Install the necessary Terraform CLI and Az CLI tools to your computer
+4. Go to the `deploy/azure` folder, and run `terraform init`
+5. Run `terraform apply` and paste the subscription ID when prompted
+6. Type in `yes` to begin deploying the resources
+7. Remember to use `terraform destroy` afterwards to remove the resources
